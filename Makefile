@@ -13,6 +13,10 @@ all: $(EXEC)
 $(EXEC): $(OBJS)
 	$(CXX) $(LDFLAGS) -o $@ $(OBJS) $(LIBS)
 
+.PHONY: test
+test: $(EXEC)
+	test/test
+
 .PHONY: clean
 clean:
 	rm -f *~ *.o a.out $(EXEC)
