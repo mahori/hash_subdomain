@@ -3,4 +3,4 @@ language: cpp
 os: osx
 osx_image: xcode10
 
-script: make
+script: make && make test

@@ -1,0 +1,90 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+use utf8;
+use feature qw(say);
+use IPC::Open2 qw(open2);
+
+my @tests = ({text => 'example.com',
+              length => 3,
+              user => 'foo',
+              domain => 'example.co.jp',
+              hashed_domain => 'ajt',
+              mail_address => 'foo@ajt.example.co.jp'},
+             {text => 'example.org',
+              length => 2,
+              user => 'bar',
+              domain => 'example.or.jp',
+              hashed_domain => 'gw',
+              mail_address => 'bar@gw.example.or.jp'},
+             {text => 'example.net',
+              length => 4,
+              hashed_domain => 'jtbz'},
+            );
+
+sub get_value {
+  my $fh = shift;
+
+  my $line = <$fh>;
+  chomp $line;
+  my @columns = split /\s+/, $line;
+
+  return $columns[$#columns];
+}
+
+sub validate_value {
+  my ($entry, $expected, $got) = @_;
+
+  if ($got ne $expected) {
+    say "$entry is wrong";
+    say "  expected: $expected";
+    say "  got:      $got";
+    exit 1;
+  }
+}
+
+foreach my $test_ref (@tests) {
+  my %test = %$test_ref;
+
+  # say STDERR 'text          = ', $test{text};
+  # say STDERR 'length        = ', $test{length};
+  # say STDERR 'hashed_domain = ', $test{hashed_domain};
+  # if ($test{user} && $test{domain}) {
+  #   say STDERR 'user          = ', $test{user};
+  #   say STDERR 'domain        = ', $test{domain};
+  #   say STDERR 'mail_address  = ', $test{mail_address};
+  # }
+
+  my $command;
+  if ($test{user} && $test{domain}) {
+    $command = sprintf './hash_subdomain --length %s --user %s --domain %s', $test{length}, $test{user}, $test{domain};
+  } else {
+    $command = sprintf './hash_subdomain --length %s', $test{length};
+  }
+
+  my $reader;
+  my $writer;
+  my $pid = open2($reader, $writer, $command);
+  say $writer $test{text};
+  close $writer;
+
+  my $hashed_domain = &get_value($reader);
+  # say STDERR "hashed_domain = $hashed_domain";
+  &validate_value('hashed_domain', $test{hashed_domain}, $hashed_domain);
+
+  if (defined $test{user} && defined $test{domain}) {
+    my $mail_address = &get_value($reader);
+    # say STDERR "mail_address = $mail_address";
+    &validate_value('mail_address', $test{mail_address}, $mail_address);
+  }
+
+  waitpid($pid, 0);
+  my $result = $?;
+  if ($result) {
+    say "test failed, return code = $result";
+    exit $result;
+  }
+}
+
+exit 0;
