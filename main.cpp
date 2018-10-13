@@ -2,8 +2,8 @@
 #include <iostream>
 #include <string>
 #include <boost/program_options.hpp>
-#include "Subdomain.hpp"
 #include "MailAddress.hpp"
+#include "Subdomain.hpp"
 
 namespace bpo = boost::program_options;
 
