@@ -28,5 +28,5 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
 target_link_libraries(${PROJECT_NAME} gtest)
 
 enable_testing()
-add_test(mytest ${CMAKE_CURRENT_SOURCE_DIR}/test)
 gtest_add_tests(TARGET ${PROJECT_NAME})
+add_test(mytest ${CMAKE_CURRENT_SOURCE_DIR}/test)
