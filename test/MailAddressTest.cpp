@@ -4,6 +4,7 @@
 
 namespace
 {
+
 class MailAddressTest
   : public ::testing::Test
 {
@@ -27,4 +28,4 @@ TEST_F(MailAddressTest, get)
   EXPECT_EQ(mailAddress_->get(), "foo@ajt.example.co.jp");
 }
 
-}
+}  // anonymous namespace
