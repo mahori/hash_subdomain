@@ -3,6 +3,7 @@ include_directories(${Boost_INCLUDE_DIRS})
 
 add_executable(${PROJECT_NAME}
     MailAddress.cpp
+    ProgramOptions.cpp
     Subdomain.cpp
     main.cpp
     )
