@@ -1,3 +1,4 @@
+#include <memory>
 #include <gtest/gtest.h>
 #include "../src/MailAddress.hpp"
 
@@ -8,16 +9,22 @@ class MailAddressTest
 {
 protected:
   MailAddressTest(void) {}
+
   ~MailAddressTest(void) override {}
 
-  void SetUp() override {}
-  void TearDown() override {}
+  void SetUp(void) override
+  {
+    mailAddress_ = std::make_shared<MailAddress>("foo", "ajt", "example.co.jp");
+  }
+
+  void TearDown(void) override {}
+
+  std::shared_ptr<MailAddress> mailAddress_;
 };
 
 TEST_F(MailAddressTest, get)
 {
-  MailAddress mailAddress("foo", "ajt", "example.co.jp");
-  EXPECT_EQ(mailAddress.get(), "foo@ajt.example.co.jp");
+  EXPECT_EQ(mailAddress_->get(), "foo@ajt.example.co.jp");
 }
 
 }
