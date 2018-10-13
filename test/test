@@ -58,9 +58,9 @@ foreach my $test_ref (@tests) {
 
   my $command;
   if ($test{user} && $test{domain}) {
-    $command = sprintf './hash_subdomain --length %s --user %s --domain %s', $test{length}, $test{user}, $test{domain};
+    $command = sprintf '../src/hash_subdomain --length %s --user %s --domain %s', $test{length}, $test{user}, $test{domain};
   } else {
-    $command = sprintf './hash_subdomain --length %s', $test{length};
+    $command = sprintf '../src/hash_subdomain --length %s', $test{length};
   }
 
   my $reader;
