@@ -1,31 +1,14 @@
-#include <memory>
 #include <gtest/gtest.h>
 #include "../src/MailAddress.hpp"
 
 namespace
 {
 
-class MailAddressTest
-  : public ::testing::Test
+TEST(MailAddressTest, Method_get)
 {
-protected:
-  MailAddressTest(void) {}
+  MailAddress ma("foo", "ajt", "example.co.jp");
 
-  ~MailAddressTest(void) override {}
-
-  void SetUp(void) override
-  {
-    mailAddress_ = std::make_shared<MailAddress>("foo", "ajt", "example.co.jp");
-  }
-
-  void TearDown(void) override {}
-
-  std::shared_ptr<MailAddress> mailAddress_;
-};
-
-TEST_F(MailAddressTest, get)
-{
-  EXPECT_EQ(mailAddress_->get(), "foo@ajt.example.co.jp");
+  EXPECT_EQ(ma.get(), "foo@ajt.example.co.jp");
 }
 
 }  // anonymous namespace
