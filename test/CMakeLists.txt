@@ -23,6 +23,8 @@ add_library(gtest ${GOOGLETEST_SOURCES})
 aux_source_directory(. SRC_LIST)
 add_executable(${PROJECT_NAME} ${SRC_LIST})
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
+
 enable_testing()
 add_test(mytest ${CMAKE_CURRENT_SOURCE_DIR}/test)
 gtest_add_tests(TARGET ${PROJECT_NAME})
