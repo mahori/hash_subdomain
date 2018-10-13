@@ -1,13 +1,27 @@
 include(GoogleTest)
 
-include_directories(/usr/local/include)
-link_directories(/usr/local/lib)
-
 project(${PROJECT_NAME}-test)
+
+set(GOOGLETEST_ROOT gtest/googletest CACHE STRING "Google Test source root")
+
+include_directories(SYSTEM
+    ${PROJECT_SOURCE_DIR}/${GOOGLETEST_ROOT}
+    ${PROJECT_SOURCE_DIR}/${GOOGLETEST_ROOT}/include
+    )
+
+set(GOOGLETEST_SOURCES
+    ${PROJECT_SOURCE_DIR}/${GOOGLETEST_ROOT}/src/gtest-all.cc
+    ${PROJECT_SOURCE_DIR}/${GOOGLETEST_ROOT}/src/gtest_main.cc
+    )
+
+foreach(_source ${GOOGLETEST_SOURCES})
+    set_source_files_properties(${_source} PROPERTIES GENERATED 1)
+endforeach()
+
+add_library(gtest ${GOOGLETEST_SOURCES})
 
 aux_source_directory(. SRC_LIST)
 add_executable(${PROJECT_NAME} ${SRC_LIST})
-target_link_libraries(${PROJECT_NAME} gtest gtest_main)
 
 enable_testing()
 add_test(mytest ${CMAKE_CURRENT_SOURCE_DIR}/test)
