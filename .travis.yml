@@ -4,9 +4,6 @@ os: osx
 osx_image: xcode10
 
 before_script:
-  - cd test
-  - git submodule add https://github.com/google/googletest.git gtest
-  - cd ..
   - mkdir build
   - cd build
   - cmake ..
