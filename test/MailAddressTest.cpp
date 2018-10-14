@@ -6,9 +6,9 @@ namespace
 
 TEST(MailAddressTest, Method_get)
 {
-  MailAddress ma("foo", "ajt", "example.co.jp");
+  MailAddress sut("foo", "ajt", "example.co.jp");
 
-  EXPECT_EQ(ma.get(), "foo@ajt.example.co.jp");
+  EXPECT_EQ(sut.get(), "foo@ajt.example.co.jp");
 }
 
 }  // anonymous namespace
