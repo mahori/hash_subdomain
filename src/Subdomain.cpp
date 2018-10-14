@@ -45,5 +45,9 @@ Subdomain::Subdomain(const std::string& domain, std::size_t length)
 
 std::string Subdomain::get(void) const
 {
-  return get_subdomain(hash_, total_);
+  if (length_) {
+    return get_subdomain(hash_, total_);
+  } else {
+    return "";
+  }
 }
