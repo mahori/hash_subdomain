@@ -2,6 +2,7 @@ find_package(Boost COMPONENTS program_options REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
 add_executable(${PROJECT_NAME}
+    Hash.cpp
     MailAddress.cpp
     ProgramOptions.cpp
     Subdomain.cpp

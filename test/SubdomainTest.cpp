@@ -1,19 +1,40 @@
+#include <memory>
 #include <gtest/gtest.h>
+#include "HashMock.hpp"
 #include "../src/Subdomain.hpp"
 
 namespace
 {
 
-TEST(SubdomainTest, Method_get_ArgumentType_1)
+class SubdomainTest
+  : public ::testing::Test
 {
-  Subdomain sut("example.com", 0);
+protected:
+  void SetUp(void) override
+  {
+    mock_ = std::make_shared<HashMock>(17576);
+  }
+
+  std::shared_ptr<HashMock> mock_;
+};
+
+TEST_F(SubdomainTest, Method_get_ArgumentType_1)
+{
+  Subdomain sut(mock_, "example.com", 0);
 
   EXPECT_TRUE(sut.get().empty());
 }
 
-TEST(SubdomainTest, Method_get_ArgumentType_2)
+TEST_F(SubdomainTest, Method_get_ArgumentType_2)
 {
-  Subdomain sut("example.com", 3);
+  EXPECT_CALL(*mock_, hash(testing::_))
+    .Times(testing::AtLeast(1))
+    .WillRepeatedly(testing::Return(253));
+
+  EXPECT_CALL(*mock_, setMax(testing::_))
+    .Times(testing::AtLeast(1));
+
+  Subdomain sut(mock_, "example.com", 3);
 
   EXPECT_EQ(sut.get(), "ajt");
 }
