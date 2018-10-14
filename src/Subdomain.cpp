@@ -1,8 +1,9 @@
 #include "Subdomain.hpp"
 #include <cmath>
 #include <cstddef>
-#include <functional>
+#include <memory>
 #include <string>
+#include "Hash.hpp"
 
 constexpr char kCharacters[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
                                 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
@@ -33,20 +34,21 @@ std::string get_subdomain(std::size_t hash, std::size_t total)
 
 }  // anonymous namespace
 
-Subdomain::Subdomain(const std::string& domain, std::size_t length)
-  : length_(length)
+Subdomain::Subdomain(std::shared_ptr<Hash> hash, const std::string& domain, std::size_t length)
+  : hash_(hash)
   , domain_(domain)
+  , length_(length)
 {
-  hash_ = std::hash<std::string>()(domain_);
-  total_ = std::pow(kSize, length_);
-
-  hash_ %= total_;
 }
 
 std::string Subdomain::get(void) const
 {
   if (length_) {
-    return get_subdomain(hash_, total_);
+    std::size_t total = pow(kSize, length_);
+    hash_->setMax(total);
+    std::size_t hash = hash_->hash(domain_);
+
+    return get_subdomain(hash, total);
   } else {
     return "";
   }

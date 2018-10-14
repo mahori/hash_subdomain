@@ -5,10 +5,12 @@ project(${PROJECT_NAME}_test)
 include(GoogleTest)
 
 set(GOOGLETEST_ROOT gtest/googletest CACHE STRING "Google Test source root")
+set(GOOGLEMOCK_ROOT gtest/googlemock CACHE STRING "Google Mock source root")
 
 set(GOOGLETEST_SOURCES
     ${PROJECT_SOURCE_DIR}/${GOOGLETEST_ROOT}/src/gtest-all.cc
     ${PROJECT_SOURCE_DIR}/${GOOGLETEST_ROOT}/src/gtest_main.cc
+    ${PROJECT_SOURCE_DIR}/${GOOGLEMOCK_ROOT}/src/gmock-all.cc
     )
 
 foreach(_source ${GOOGLETEST_SOURCES})
@@ -27,13 +29,17 @@ include_directories(
     SYSTEM
     ${PROJECT_SOURCE_DIR}/${GOOGLETEST_ROOT}
     ${PROJECT_SOURCE_DIR}/${GOOGLETEST_ROOT}/include
+    ${PROJECT_SOURCE_DIR}/${GOOGLEMOCK_ROOT}
+    ${PROJECT_SOURCE_DIR}/${GOOGLEMOCK_ROOT}/include
     ${Boost_INCLUDE_DIRS}
     )
 
 add_executable(${PROJECT_NAME}
+    ../src/Hash.cpp
     ../src/MailAddress.cpp
     ../src/ProgramOptions.cpp
     ../src/Subdomain.cpp
+    HashTest.cpp
     MailAddressTest.cpp
     ProgramOptionsTest.cpp
     SubdomainTest.cpp

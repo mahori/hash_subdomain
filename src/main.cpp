@@ -1,5 +1,7 @@
 #include <iostream>
+#include <memory>
 #include <string>
+#include "Hash.hpp"
 #include "MailAddress.hpp"
 #include "ProgramOptions.hpp"
 #include "Subdomain.hpp"
@@ -16,7 +18,9 @@ int main(int argc, char* argv[])
   std::string text;
   std::cin >> text;
 
-  Subdomain subdomain(text, po.length());
+  std::shared_ptr<Hash> hash = std::make_shared<Hash>();
+
+  Subdomain subdomain(hash, text, po.length());
   std::string hashedSubdomain = subdomain.get();
 
   std::cout << "hashed subdomain = " << hashedSubdomain << std::endl;
