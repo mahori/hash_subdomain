@@ -1,15 +1,10 @@
-include(GoogleTest)
-find_package(Boost COMPONENTS program_options REQUIRED)
+project(${PROJECT_NAME}_test)
 
-project(${PROJECT_NAME}-test)
+# library
+
+include(GoogleTest)
 
 set(GOOGLETEST_ROOT gtest/googletest CACHE STRING "Google Test source root")
-
-include_directories(SYSTEM
-    ${PROJECT_SOURCE_DIR}/${GOOGLETEST_ROOT}
-    ${PROJECT_SOURCE_DIR}/${GOOGLETEST_ROOT}/include
-    ${Boost_INCLUDE_DIRS}
-    )
 
 set(GOOGLETEST_SOURCES
     ${PROJECT_SOURCE_DIR}/${GOOGLETEST_ROOT}/src/gtest-all.cc
@@ -22,6 +17,19 @@ endforeach()
 
 add_library(gtest ${GOOGLETEST_SOURCES})
 
+# executable
+
+find_package(Boost COMPONENTS program_options REQUIRED)
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
+
+include_directories(
+    SYSTEM
+    ${PROJECT_SOURCE_DIR}/${GOOGLETEST_ROOT}
+    ${PROJECT_SOURCE_DIR}/${GOOGLETEST_ROOT}/include
+    ${Boost_INCLUDE_DIRS}
+    )
+
 add_executable(${PROJECT_NAME}
     ../src/MailAddress.cpp
     ../src/ProgramOptions.cpp
@@ -31,9 +39,11 @@ add_executable(${PROJECT_NAME}
     SubdomainTest.cpp
     )
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
 target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES} gtest)
 
+# test
+
 enable_testing()
-gtest_add_tests(TARGET ${PROJECT_NAME})
+
+gtest_discover_tests(${PROJECT_NAME})
 add_test(mytest ${CMAKE_CURRENT_SOURCE_DIR}/test)
