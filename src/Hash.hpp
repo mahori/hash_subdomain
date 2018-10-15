@@ -9,9 +9,9 @@ class Hash
 {
 public:
   Hash(void) =default;
-  virtual ~Hash(void) =default;
+  ~Hash(void) =default;
 
-  virtual std::size_t hash(const std::string& text, std::size_t max = std::numeric_limits<std::size_t>::max()) const;
+  std::size_t hash(const std::string& text, std::size_t max = std::numeric_limits<std::size_t>::max()) const;
 };
 
 #endif  // HASH_H

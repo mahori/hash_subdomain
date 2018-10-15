@@ -4,14 +4,12 @@
 #include <cstddef>
 #include <string>
 #include <gmock/gmock.h>
-#include "../src/Hash.hpp"
 
 class HashMock
-  : public Hash
 {
 public:
   HashMock(void) =default;
-  ~HashMock(void) override =default;
+  ~HashMock(void) =default;
 
   MOCK_CONST_METHOD2(hash, std::size_t(const std::string&, std::size_t));
 };

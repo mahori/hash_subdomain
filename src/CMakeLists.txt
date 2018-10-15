@@ -5,7 +5,7 @@ add_executable(${PROJECT_NAME}
     Hash.cpp
     MailAddress.cpp
     ProgramOptions.cpp
-    Subdomain.cpp
+    Utils.cpp
     main.cpp
     )
 

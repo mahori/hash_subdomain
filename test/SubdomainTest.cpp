@@ -20,7 +20,7 @@ protected:
 
 TEST_F(SubdomainTest, Method_get_ArgumentType_1)
 {
-  Subdomain sut(mock_, "example.com", 0);
+  Subdomain<HashMock> sut(mock_, "example.com", 0);
 
   EXPECT_TRUE(sut.get().empty());
 }
@@ -31,7 +31,7 @@ TEST_F(SubdomainTest, Method_get_ArgumentType_2)
     .Times(testing::AtLeast(1))
     .WillRepeatedly(testing::Return(253));
 
-  Subdomain sut(mock_, "example.com", 3);
+  Subdomain<HashMock> sut(mock_, "example.com", 3);
 
   EXPECT_EQ(sut.get(), "ajt");
 }
