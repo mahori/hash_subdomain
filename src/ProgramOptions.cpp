@@ -1,5 +1,6 @@
 #include "ProgramOptions.hpp"
 #include <cstddef>
+#include <stdexcept>
 #include <string>
 #include <sstream>
 #include <boost/program_options.hpp>
@@ -24,7 +25,13 @@ ProgramOptions::ProgramOptions(int argc, char** argv)
     ;
 
   po::variables_map vm;
-  po::store(po::parse_command_line(argc, argv, desc), vm);
+  try {
+    po::store(po::parse_command_line(argc, argv, desc), vm);
+  }
+  catch (boost::program_options::invalid_option_value& e) {
+    throw std::invalid_argument(e.what());
+  }
+
   po::notify(vm);
 
   hasHelp_ = (vm.count("help") > 0);

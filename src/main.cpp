@@ -1,5 +1,7 @@
+#include <cstddef>
 #include <iostream>
 #include <memory>
+#include <stdexcept>
 #include <string>
 #include "Hash.hpp"
 #include "MailAddress.hpp"
@@ -8,10 +10,28 @@
 
 int main(int argc, char* argv[])
 {
-  ProgramOptions po(argc, argv);
+  bool hasHelp;
+  std::string helpLines;
+  std::size_t length;
+  std::string user;
+  std::string domain;
 
-  if (po.hasHelp()) {
-    std::cerr << po.helpLines() << std::endl;
+  try {
+    ProgramOptions po(argc, argv);
+
+    hasHelp = po.hasHelp();
+    helpLines = po.helpLines();
+    length = po.length();
+    user = po.user();
+    domain = po.domain();
+  }
+  catch (std::invalid_argument& e) {
+    std::cerr << "Invalid argument: " << e.what() << std::endl;
+    return 1;
+  }
+
+  if (hasHelp) {
+    std::cerr << helpLines << std::endl;
     return 1;
   }
 
@@ -20,13 +40,10 @@ int main(int argc, char* argv[])
 
   std::shared_ptr<Hash> hash = std::make_shared<Hash>();
 
-  Subdomain subdomain(hash, text, po.length());
+  Subdomain subdomain(hash, text, length);
   std::string hashedSubdomain = subdomain.get();
 
   std::cout << "hashed subdomain = " << hashedSubdomain << std::endl;
-
-  std::string user(po.user());
-  std::string domain(po.domain());
 
   if (!user.empty() && !domain.empty()) {
     MailAddress ma(user, hashedSubdomain, domain);
