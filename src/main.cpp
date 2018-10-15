@@ -7,6 +7,7 @@
 #include "MailAddress.hpp"
 #include "ProgramOptions.hpp"
 #include "Subdomain.hpp"
+#include "Utils.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -38,7 +39,8 @@ int main(int argc, char* argv[])
   std::string text;
   std::cin >> text;
 
-  std::shared_ptr<Hash> hash = std::make_shared<Hash>();
+  std::size_t hash_size = ::hash_size(length);
+  std::shared_ptr<Hash> hash = std::make_shared<Hash>(hash_size);
 
   Subdomain<Hash> subdomain(hash, text, length);
   std::string hashedSubdomain = subdomain.get();

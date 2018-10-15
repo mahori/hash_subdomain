@@ -8,10 +8,14 @@
 class Hash
 {
 public:
-  Hash(void) =default;
+  Hash(std::size_t size = std::numeric_limits<std::size_t>::max());
   ~Hash(void) =default;
 
-  std::size_t hash(const std::string& text, std::size_t max = std::numeric_limits<std::size_t>::max()) const;
+  std::size_t hash(const std::string& text) const;
+  std::size_t size(void) const;
+
+private:
+  std::size_t size_;
 };
 
 #endif  // HASH_H

@@ -1,7 +1,6 @@
 #ifndef SUBDOMAIN_H
 #define SUBDOMAIN_H
 
-#include <cmath>
 #include <cstddef>
 #include <memory>
 #include <string>
@@ -21,11 +20,10 @@ public:
   std::string get(void) const
   {
     if (length_) {
-      std::size_t size = ::get_size();
-      std::size_t total = std::pow(size, length_);
-      std::size_t hash = hash_->hash(domain_, total);
+      std::size_t hash_size = hash_->size();
+      std::size_t hash_value = hash_->hash(domain_);
 
-      return ::get_subdomain(hash, total);
+      return ::get_alphabets(hash_size, hash_value);
     } else {
       return "";
     }

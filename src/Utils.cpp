@@ -1,32 +1,38 @@
+#include <cmath>
 #include <cstddef>
 #include <string>
 #include "Utils.hpp"
 
-constexpr char kCharacters[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
+constexpr char kAlphabets[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
                                 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
                                 'u', 'v', 'w', 'x', 'y', 'z'};
-constexpr std::size_t kSize = sizeof(kCharacters) / sizeof(char);
+constexpr std::size_t kNumberOfAlphabets = sizeof(kAlphabets) / sizeof(char);
 
-std::string get_character(std::size_t value, std::size_t current)
+std::string get_alphabet(std::size_t value, std::size_t current)
 {
-  current /= kSize;
+  current /= kNumberOfAlphabets;
 
-  if (current < kSize) {
-    return std::string(1, kCharacters[value]);
+  if (current < kNumberOfAlphabets) {
+    return std::string(1, kAlphabets[value]);
   }
 
-  std::string s(1, kCharacters[value/current]);
-  s += get_character(value % current, current);
+  std::string s(1, kAlphabets[value/current]);
+  s += get_alphabet(value % current, current);
 
   return s;
 }
 
-std::string get_subdomain(std::size_t hash, std::size_t total)
+std::string get_alphabets(std::size_t hash_size, std::size_t hash_value)
 {
-  return get_character(hash, total);
+  return ::get_alphabet(hash_value, hash_size);
 }
 
-std::size_t get_size(void)
+std::size_t number_of_alphabets(void)
 {
-  return kSize;
+  return kNumberOfAlphabets;
+}
+
+std::size_t hash_size(std::size_t length)
+{
+  return std::pow(kNumberOfAlphabets, length);
 }
