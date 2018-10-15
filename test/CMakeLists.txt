@@ -38,7 +38,7 @@ add_executable(${PROJECT_NAME}
     ../src/Hash.cpp
     ../src/MailAddress.cpp
     ../src/ProgramOptions.cpp
-    ../src/Subdomain.cpp
+    ../src/Utils.cpp
     HashTest.cpp
     MailAddressTest.cpp
     ProgramOptionsTest.cpp
