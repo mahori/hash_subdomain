@@ -11,6 +11,7 @@ class HashMock
 {
 public:
   HashMock(void) =default;
+  ~HashMock(void) override =default;
 
   MOCK_CONST_METHOD2(hash, std::size_t(const std::string&, std::size_t));
 };
