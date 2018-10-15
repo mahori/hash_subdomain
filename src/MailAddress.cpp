@@ -5,10 +5,10 @@
 using std::string;
 using std::ostringstream;
 
-MailAddress::MailAddress(const string& username, const string& subdomain, const string& domain)
+MailAddress::MailAddress(const string& username, const string& subdomain, const string& maindomain)
   : username_(username)
   , subdomain_(subdomain)
-  , domain_(domain)
+  , maindomain_(maindomain)
 {
 }
 
@@ -20,7 +20,7 @@ string MailAddress::get(void) const
   ss << '@';
   ss << subdomain_;
   ss << '.';
-  ss << domain_;
+  ss << maindomain_;
 
   return ss.str();
 }
