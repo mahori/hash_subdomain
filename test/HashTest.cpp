@@ -1,39 +1,56 @@
+#include <cstddef>
 #include <limits>
+#include <stdexcept>
 #include <gtest/gtest.h>
 #include "../src/Hash.hpp"
 
 namespace
 {
 
-TEST(HashTest, NullConstractor)
+TEST(HashTest, Method_hash_NormalArgument)
 {
   Hash sut;
 
-  EXPECT_EQ(sut.max(), std::numeric_limits<std::size_t>::max());
+  std::size_t hash = sut.hash("example.com", 17576U);
+
+  EXPECT_EQ(hash, 253U);
 }
 
-TEST(HashTest, Constractor)
-{
-  Hash sut(12345);
-
-  EXPECT_EQ(sut.max(), 12345);
-}
-
-TEST(HashTest, Getter_Setter)
+TEST(HashTest, Method_hash_Integer_0)
 {
   Hash sut;
-  sut.setMax(12345);
 
-  EXPECT_EQ(sut.max(), 12345);
+  EXPECT_THROW({
+      std::size_t hash = sut.hash("example.com", 0U);
+    },
+    std::invalid_argument);
 }
 
-TEST(HashTest, Method_hash)
+TEST(HashTest, Method_hash_Integer_Maximum)
 {
-  Hash sut(17576);
+  Hash sut;
+
+  std::size_t hash = sut.hash("example.com", std::numeric_limits<std::size_t>::max());
+
+  EXPECT_EQ(hash, 12161068328669395661U);
+}
+
+TEST(HashTest, Method_hash_NoIntegerArgument)
+{
+  Hash sut;
 
   std::size_t hash = sut.hash("example.com");
 
-  EXPECT_EQ(hash, 253);
+  EXPECT_EQ(hash, 12161068328669395661U);
+}
+
+TEST(HashTest, Method_hash_EmptyString)
+{
+  Hash sut;
+
+  std::size_t hash = sut.hash("");
+
+  EXPECT_EQ(hash, 11160318154034397263U);
 }
 
 }  // anonymous namespace

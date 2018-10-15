@@ -10,15 +10,9 @@ class HashMock
   : public Hash
 {
 public:
-  HashMock(std::size_t max)
-    : Hash(max)
-  {
-  }
+  HashMock(void) =default;
 
-  MOCK_CONST_METHOD1(hash, std::size_t(const std::string&));
-
-  MOCK_CONST_METHOD0(max, std::size_t(void));
-  MOCK_METHOD1(setMax, void(std::size_t));
+  MOCK_CONST_METHOD2(hash, std::size_t(const std::string&, std::size_t));
 };
 
 #endif  // HASH_MOCK_H

@@ -12,7 +12,7 @@ class SubdomainTest
 protected:
   void SetUp(void) override
   {
-    mock_ = std::make_shared<HashMock>(17576);
+    mock_ = std::make_shared<HashMock>();
   }
 
   std::shared_ptr<HashMock> mock_;
@@ -27,12 +27,9 @@ TEST_F(SubdomainTest, Method_get_ArgumentType_1)
 
 TEST_F(SubdomainTest, Method_get_ArgumentType_2)
 {
-  EXPECT_CALL(*mock_, hash(testing::_))
+  EXPECT_CALL(*mock_, hash(testing::_, testing::_))
     .Times(testing::AtLeast(1))
     .WillRepeatedly(testing::Return(253));
-
-  EXPECT_CALL(*mock_, setMax(testing::_))
-    .Times(testing::AtLeast(1));
 
   Subdomain sut(mock_, "example.com", 3);
 

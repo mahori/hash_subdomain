@@ -45,8 +45,7 @@ std::string Subdomain::get(void) const
 {
   if (length_) {
     std::size_t total = pow(kSize, length_);
-    hash_->setMax(total);
-    std::size_t hash = hash_->hash(domain_);
+    std::size_t hash = hash_->hash(domain_, total);
 
     return get_subdomain(hash, total);
   } else {
