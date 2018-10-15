@@ -1,4 +1,5 @@
 #include <array>
+#include <stdexcept>
 #include <gtest/gtest.h>
 #include "../src/ProgramOptions.hpp"
 
@@ -44,6 +45,16 @@ TEST(ProgramOptionsTest, ArgumentType_2)
   EXPECT_EQ(sut.length(), 4);
   EXPECT_TRUE(sut.user().empty());
   EXPECT_TRUE(sut.domain().empty());
+}
+
+TEST(ProgramOptionsTest, InvalidOptionValueException)
+{
+  std::array<char*, 3> argv({"hash_subdomain",
+                             "--length", "foo"});
+  EXPECT_THROW({
+      ProgramOptions sut(argv.size(), argv.data());
+    },
+    std::invalid_argument);
 }
 
 }  // anonymous namespace
