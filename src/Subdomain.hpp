@@ -21,7 +21,8 @@ public:
   std::string get(void) const
   {
     if (length_) {
-      std::size_t total = std::pow(26, length_);
+      std::size_t size = ::get_size();
+      std::size_t total = std::pow(size, length_);
       std::size_t hash = hash_->hash(domain_, total);
 
       return ::get_subdomain(hash, total);
