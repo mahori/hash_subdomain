@@ -7,6 +7,8 @@ class MailAddress
 {
 public:
   MailAddress(const std::string& username, const std::string& subdomain, const std::string& maindomain);
+  ~MailAddress(void) =default;
+
   std::string get(void) const;
 
 private:
