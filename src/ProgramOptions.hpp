@@ -8,7 +8,7 @@ class ProgramOptions
 {
 public:
   ProgramOptions(int argc, char** argv);
-  ~ProgramOptions(void);
+  ~ProgramOptions(void) =default;
 
   bool hasHelp(void) const;
   std::string helpLines(void) const;
@@ -17,7 +17,7 @@ public:
   std::string domain(void) const;
 
 private:
-  bool hasHelp_;
+  bool        hasHelp_;
   std::string helpLines_;
   std::size_t length_;
   std::string user_;

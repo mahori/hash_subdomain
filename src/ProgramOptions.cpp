@@ -1,11 +1,21 @@
 #include "ProgramOptions.hpp"
 #include <cstddef>
+#include <sstream>
 #include <stdexcept>
 #include <string>
-#include <sstream>
 #include <boost/program_options.hpp>
 
 namespace po = boost::program_options;
+
+using invalid_argument = std::invalid_argument;
+using ostringstream    = std::ostringstream;
+using size_t           = std::size_t;
+using string           = std::string;
+
+const char* const kHelpKey   = "help";
+const char* const kLengthKey = "length";
+const char* const kDomainKey = "domain";
+const char* const kUserKey   = "user";
 
 ProgramOptions::ProgramOptions(int argc, char** argv)
   : hasHelp_(false)
@@ -16,43 +26,37 @@ ProgramOptions::ProgramOptions(int argc, char** argv)
 
 {
   po::options_description desc("options");
-
   desc.add_options()
-    ("help",                                                       "show help")
-    ("length", po::value<std::size_t>(&length_)->default_value(1), "subdomain length")
-    ("user",   po::value<std::string>(),                           "user name")
-    ("domain", po::value<std::string>(),                           "domain name")
+    (kHelpKey,                                                  "show help")
+    (kLengthKey, po::value<size_t>(&length_)->default_value(1), "subdomain length")
+    (kUserKey,   po::value<string>(),                           "user name")
+    (kDomainKey, po::value<string>(),                           "domain name")
     ;
 
   po::variables_map vm;
   try {
     po::store(po::parse_command_line(argc, argv, desc), vm);
   }
-  catch (boost::program_options::invalid_option_value& e) {
-    throw std::invalid_argument(e.what());
+  catch (po::invalid_option_value& e) {
+    throw invalid_argument(e.what());
   }
-
   po::notify(vm);
 
-  hasHelp_ = (vm.count("help") > 0);
+  hasHelp_ = (vm.count(kHelpKey) > 0);
 
   if (hasHelp_) {
-    std::ostringstream ss;
+    ostringstream ss;
     ss << desc;
     helpLines_ = ss.str();
   }
 
-  if (vm.count("user")) {
-    user_ = vm["user"].as<std::string>();
+  if (vm.count(kUserKey)) {
+    user_ = vm[kUserKey].as<string>();
   }
 
-  if (vm.count("domain")) {
-    domain_ = vm["domain"].as<std::string>();
+  if (vm.count(kDomainKey)) {
+    domain_ = vm[kDomainKey].as<string>();
   }
-}
-
-ProgramOptions::~ProgramOptions(void)
-{
 }
 
 bool ProgramOptions::hasHelp(void) const
@@ -60,22 +64,22 @@ bool ProgramOptions::hasHelp(void) const
   return hasHelp_;
 }
 
-std::string ProgramOptions::helpLines(void) const
+string ProgramOptions::helpLines(void) const
 {
   return helpLines_;
 }
 
-std::size_t ProgramOptions::length(void) const
+size_t ProgramOptions::length(void) const
 {
   return length_;
 }
 
-std::string ProgramOptions::user(void) const
+string ProgramOptions::user(void) const
 {
   return user_;
 }
 
-std::string ProgramOptions::domain(void) const
+string ProgramOptions::domain(void) const
 {
   return domain_;
 }
