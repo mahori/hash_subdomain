@@ -9,48 +9,55 @@
 #include "Subdomain.hpp"
 #include "Utils.hpp"
 
+using std::cerr;
+using std::cin;
+using std::cout;
+using std::endl;
+using std::make_shared;
+using hash_ptr         = std::shared_ptr<Hash>;
+using invalid_argument = std::invalid_argument;
+using size_t           = std::size_t;
+using string           = std::string;
+
 int main(int argc, char* argv[])
 {
-  bool hasHelp;
-  std::string helpLines;
-  std::size_t length;
-  std::string user;
-  std::string domain;
+  bool   hasHelp;
+  string helpLines;
+  size_t length;
+  string user;
+  string domain;
 
   try {
     ProgramOptions po(argc, argv);
-
-    hasHelp = po.hasHelp();
+    hasHelp   = po.hasHelp();
     helpLines = po.helpLines();
-    length = po.length();
-    user = po.user();
-    domain = po.domain();
+    length    = po.length();
+    user      = po.user();
+    domain    = po.domain();
   }
-  catch (std::invalid_argument& e) {
-    std::cerr << "Invalid argument: " << e.what() << std::endl;
+  catch (invalid_argument& e) {
+    cerr << "invalid argument: " << e.what() << endl;
     return 1;
   }
 
   if (hasHelp) {
-    std::cerr << helpLines << std::endl;
+    cerr << helpLines << endl;
     return 1;
   }
 
-  std::string text;
-  std::cin >> text;
+  string text;
+  cin >> text;
 
-  std::size_t hash_size = ::hash_size(length);
-  std::shared_ptr<Hash> hash = std::make_shared<Hash>(hash_size);
+  size_t hash_size = ::hash_size(length);
+  hash_ptr hash = make_shared<Hash>(hash_size);
 
-  Subdomain<Hash> subdomain(length, hash, text);
-  std::string hashedSubdomain = subdomain.get();
-
-  std::cout << "hashed subdomain = " << hashedSubdomain << std::endl;
+  Subdomain<Hash> sd(length, hash, text);
+  string subdomain = sd.get();
+  cout << "hashed subdomain = " << subdomain << endl;
 
   if (!user.empty() && !domain.empty()) {
-    MailAddress ma(user, hashedSubdomain, domain);
-
-    std::cout << "mail address     = " << ma.get() << std::endl;
+    MailAddress ma(user, subdomain, domain);
+    cout << "mail address     = " << ma.get() << endl;
   }
 
   return 0;
