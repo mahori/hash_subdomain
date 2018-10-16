@@ -4,25 +4,28 @@
 #include <gtest/gtest.h>
 #include "../src/Hash.hpp"
 
+using invalid_argument = std::invalid_argument;
+using size_t           = std::size_t;
+
+constexpr size_t size_t_max = std::numeric_limits<size_t>::max();
+
 namespace
 {
 
 TEST(HashTest, Constructor_NormalArgument)
 {
-  Hash sut(17576U);
+  const size_t hash_size = 17576U;
 
-  std::size_t hash_size = sut.size();
+  Hash sut(hash_size);
 
-  EXPECT_EQ(hash_size, 17576U);
+  EXPECT_EQ(sut.size(), hash_size);
 }
 
 TEST(HashTest, Constructor_NullArgument)
 {
   Hash sut;
 
-  std::size_t hash_size = sut.size();
-
-  EXPECT_EQ(hash_size, std::numeric_limits<std::size_t>::max());
+  EXPECT_EQ(sut.size(), size_t_max);
 }
 
 TEST(HashTest, Constructor_ZeroArgument)
@@ -30,34 +33,30 @@ TEST(HashTest, Constructor_ZeroArgument)
   EXPECT_THROW({
       Hash sut(0U);
     },
-    std::invalid_argument);
+    invalid_argument);
 }
 
-TEST(HashTest, Constructor_MaximimIntegerArgument)
+TEST(HashTest, Constructor_MaximumIntegerArgument)
 {
-  Hash sut(std::numeric_limits<std::size_t>::max());
+  const size_t hash_size = size_t_max;
 
-  std::size_t hash_size = sut.size();
+  Hash sut(hash_size);
 
-  EXPECT_EQ(hash_size, std::numeric_limits<std::size_t>::max());
+  EXPECT_EQ(sut.size(), hash_size);
 }
 
 TEST(HashTest, Method_hash_NormalArgument)
 {
   Hash sut(17576U);
 
-  std::size_t hash = sut.hash("example.com");
-
-  EXPECT_EQ(hash, 253U);
+  EXPECT_EQ(sut.hash("example.com"), 253U);
 }
 
 TEST(HashTest, Method_hash_EmptyString)
 {
   Hash sut;
 
-  std::size_t hash = sut.hash("");
-
-  EXPECT_EQ(hash, 11160318154034397263U);
+  EXPECT_EQ(sut.hash(""), 11160318154034397263U);
 }
 
 }  // anonymous namespace
