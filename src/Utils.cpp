@@ -3,36 +3,34 @@
 #include <string>
 #include "Utils.hpp"
 
-constexpr char kAlphabets[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
-                                'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
-                                'u', 'v', 'w', 'x', 'y', 'z'};
-constexpr std::size_t kNumberOfAlphabets = sizeof(kAlphabets) / sizeof(char);
+using size_t = std::size_t;
+using string = std::string;
 
-std::string get_alphabet(std::size_t value, std::size_t current)
+constexpr char kAlphabets[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
+                               'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
+                               'u', 'v', 'w', 'x', 'y', 'z'};
+constexpr size_t kNumberOfAlphabets = sizeof(kAlphabets) / sizeof(char);
+
+string get_alphabet(size_t value, size_t current)
 {
   current /= kNumberOfAlphabets;
 
   if (current < kNumberOfAlphabets) {
-    return std::string(1, kAlphabets[value]);
+    return string(1, kAlphabets[value]);
   }
 
-  std::string s(1, kAlphabets[value/current]);
+  string s(1, kAlphabets[value/current]);
   s += get_alphabet(value % current, current);
 
   return s;
 }
 
-std::string get_alphabets(std::size_t hash_size, std::size_t hash_value)
+string get_alphabets(size_t hash_size, size_t hash_value)
 {
   return ::get_alphabet(hash_value, hash_size);
 }
 
-std::size_t number_of_alphabets(void)
+size_t hash_size(size_t length)
 {
-  return kNumberOfAlphabets;
-}
-
-std::size_t hash_size(std::size_t length)
-{
-  return std::pow(kNumberOfAlphabets, length);
+  return ::pow(kNumberOfAlphabets, length);
 }
