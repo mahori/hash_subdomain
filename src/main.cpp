@@ -42,7 +42,7 @@ int main(int argc, char* argv[])
   std::size_t hash_size = ::hash_size(length);
   std::shared_ptr<Hash> hash = std::make_shared<Hash>(hash_size);
 
-  Subdomain<Hash> subdomain(hash, text, length);
+  Subdomain<Hash> subdomain(length, hash, text);
   std::string hashedSubdomain = subdomain.get();
 
   std::cout << "hashed subdomain = " << hashedSubdomain << std::endl;
