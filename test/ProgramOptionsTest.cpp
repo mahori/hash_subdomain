@@ -1,16 +1,19 @@
-#include <array>
 #include <stdexcept>
+#include <vector>
 #include <gtest/gtest.h>
 #include "../src/ProgramOptions.hpp"
+
+using std::vector;
+using invalid_argument = std::invalid_argument;
 
 namespace
 {
 
 TEST(ProgramOptionsTest, Help)
 {
-  std::array<char*, 2> argv({"hash_subdomain",
-                             "--help"});
-  ProgramOptions sut(argv.size(), argv.data());
+  vector<const char*> args({"hash_subdomain",
+                            "--help"});
+  ProgramOptions sut(args);
 
   EXPECT_TRUE(sut.hasHelp());
   EXPECT_FALSE(sut.helpLines().empty());
@@ -21,11 +24,11 @@ TEST(ProgramOptionsTest, Help)
 
 TEST(ProgramOptionsTest, ArgumentType_1)
 {
-  std::array<char*, 7> argv({"hash_subdomain",
-                             "--length", "3",
-                             "--user",   "foo",
-                             "--domain", "example.co.jp"});
-  ProgramOptions sut(argv.size(), argv.data());
+  vector<const char*> args({"hash_subdomain",
+                            "--length", "3",
+                            "--user",   "foo",
+                            "--domain", "example.co.jp"});
+  ProgramOptions sut(args);
 
   EXPECT_FALSE(sut.hasHelp());
   EXPECT_TRUE(sut.helpLines().empty());
@@ -36,9 +39,9 @@ TEST(ProgramOptionsTest, ArgumentType_1)
 
 TEST(ProgramOptionsTest, ArgumentType_2)
 {
-  std::array<char*, 3> argv({"hash_subdomain",
-                             "--length", "4"});
-  ProgramOptions sut(argv.size(), argv.data());
+  vector<const char*> args({"hash_subdomain",
+                            "--length", "4"});
+  ProgramOptions sut(args);
 
   EXPECT_FALSE(sut.hasHelp());
   EXPECT_TRUE(sut.helpLines().empty());
@@ -49,12 +52,13 @@ TEST(ProgramOptionsTest, ArgumentType_2)
 
 TEST(ProgramOptionsTest, InvalidOptionValueException)
 {
-  std::array<char*, 3> argv({"hash_subdomain",
-                             "--length", "foo"});
+  vector<const char*> args({"hash_subdomain",
+                            "--length", "foo"});
+
   EXPECT_THROW({
-      ProgramOptions sut(argv.size(), argv.data());
+      ProgramOptions sut(args);
     },
-    std::invalid_argument);
+    invalid_argument);
 }
 
 }  // anonymous namespace

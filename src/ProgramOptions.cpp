@@ -3,10 +3,12 @@
 #include <sstream>
 #include <stdexcept>
 #include <string>
+#include <vector>
 #include <boost/program_options.hpp>
 
 namespace po = boost::program_options;
 
+using std::vector;
 using invalid_argument = std::invalid_argument;
 using ostringstream    = std::ostringstream;
 using size_t           = std::size_t;
@@ -17,7 +19,7 @@ const char* const kLengthKey = "length";
 const char* const kDomainKey = "domain";
 const char* const kUserKey   = "user";
 
-ProgramOptions::ProgramOptions(int argc, char** argv)
+ProgramOptions::ProgramOptions(const vector<const char*>& args)
   : hasHelp_(false)
   , helpLines_()
   , length_(0)
@@ -35,7 +37,7 @@ ProgramOptions::ProgramOptions(int argc, char** argv)
 
   po::variables_map vm;
   try {
-    po::store(po::parse_command_line(argc, argv, desc), vm);
+    po::store(po::parse_command_line(args.size(), args.data(), desc), vm);
   }
   catch (po::invalid_option_value& e) {
     throw invalid_argument(e.what());
