@@ -1,38 +1,46 @@
-#include <cmath>
 #include <cstddef>
 #include <memory>
 #include <gtest/gtest.h>
-#include "HashMock.hpp"
 #include "../src/Subdomain.hpp"
 #include "../src/Utils.hpp"
+#include "MockHash.hpp"
 
 namespace
 {
 
-TEST(SubdomainTest, Method_get_ArgumentType_1)
+class SubdomainTest
+  : public ::testing::Test
 {
-  std::shared_ptr<HashMock> mock = std::make_shared<HashMock>();
+protected:
+  void SetUp(void) override
+  {
+    mock_ = std::make_shared<MockHash>();
+  }
 
-  Subdomain<HashMock> sut(0, mock, "example.com");
+  std::shared_ptr<MockHash> mock_;
+};
+
+TEST_F(SubdomainTest, Method_get_ArgumentType_1)
+{
+  Subdomain<MockHash> sut(0, mock_, "example.com");
 
   EXPECT_TRUE(sut.get().empty());
 }
 
-TEST(SubdomainTest, Method_get_ArgumentType_2)
+TEST_F(SubdomainTest, Method_get_ArgumentType_2)
 {
-  std::size_t length = 3;
-  std::size_t hash_size = ::hash_size(length);
-  std::shared_ptr<HashMock> mock = std::make_shared<HashMock>(hash_size);
+  const std::size_t length    = 3;
+  const std::size_t hash_size = ::hash_size(length);
 
-  EXPECT_CALL(*mock, hash(testing::_))
+  EXPECT_CALL(*mock_, hash(testing::_))
     .Times(testing::AtLeast(1))
     .WillRepeatedly(testing::Return(253));
 
-  EXPECT_CALL(*mock, size())
+  EXPECT_CALL(*mock_, size())
     .Times(testing::AtLeast(1))
     .WillRepeatedly(testing::Return(hash_size));
 
-  Subdomain<HashMock> sut(length, mock, "example.com");
+  Subdomain<MockHash> sut(length, mock_, "example.com");
 
   EXPECT_EQ(sut.get(), "ajt");
 }
