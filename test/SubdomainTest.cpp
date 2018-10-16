@@ -5,6 +5,10 @@
 #include "../src/Utils.hpp"
 #include "MockHash.hpp"
 
+using std::make_shared;
+using hash_ptr = std::shared_ptr<MockHash>;
+using size_t   = std::size_t;
+
 namespace
 {
 
@@ -14,10 +18,10 @@ class SubdomainTest
 protected:
   void SetUp(void) override
   {
-    mock_ = std::make_shared<MockHash>();
+    mock_ = make_shared<MockHash>();
   }
 
-  std::shared_ptr<MockHash> mock_;
+  hash_ptr mock_;
 };
 
 TEST_F(SubdomainTest, Method_get_ArgumentType_1)
@@ -29,8 +33,8 @@ TEST_F(SubdomainTest, Method_get_ArgumentType_1)
 
 TEST_F(SubdomainTest, Method_get_ArgumentType_2)
 {
-  const std::size_t length    = 3;
-  const std::size_t hash_size = ::hash_size(length);
+  const size_t length    = 3;
+  const size_t hash_size = ::hash_size(length);
 
   EXPECT_CALL(*mock_, hash(testing::_))
     .Times(testing::AtLeast(1))
