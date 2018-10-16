@@ -3,11 +3,12 @@
 
 #include <cstddef>
 #include <string>
+#include <vector>
 
 class ProgramOptions
 {
 public:
-  ProgramOptions(int argc, char** argv);
+  ProgramOptions(const std::vector<const char*>& args);
   ~ProgramOptions(void) =default;
 
   bool hasHelp(void) const;

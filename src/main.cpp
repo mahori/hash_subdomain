@@ -1,8 +1,10 @@
+#include <algorithm>
 #include <cstddef>
 #include <iostream>
 #include <memory>
 #include <stdexcept>
 #include <string>
+#include <vector>
 #include "Hash.hpp"
 #include "MailAddress.hpp"
 #include "ProgramOptions.hpp"
@@ -11,9 +13,11 @@
 
 using std::cerr;
 using std::cin;
+using std::copy_n;
 using std::cout;
 using std::endl;
 using std::make_shared;
+using std::vector;
 using hash_ptr         = std::shared_ptr<Hash>;
 using invalid_argument = std::invalid_argument;
 using size_t           = std::size_t;
@@ -27,8 +31,11 @@ int main(int argc, char* argv[])
   string user;
   string domain;
 
+  vector<const char*> args(argc);
+  copy_n(argv, argc, args.begin());
+
   try {
-    ProgramOptions po(argc, argv);
+    ProgramOptions po(args);
     hasHelp   = po.hasHelp();
     helpLines = po.helpLines();
     length    = po.length();
