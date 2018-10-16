@@ -13,7 +13,7 @@ TEST(SubdomainTest, Method_get_ArgumentType_1)
 {
   std::shared_ptr<HashMock> mock = std::make_shared<HashMock>();
 
-  Subdomain<HashMock> sut(mock, "example.com", 0);
+  Subdomain<HashMock> sut(0, mock, "example.com");
 
   EXPECT_TRUE(sut.get().empty());
 }
@@ -32,7 +32,7 @@ TEST(SubdomainTest, Method_get_ArgumentType_2)
     .Times(testing::AtLeast(1))
     .WillRepeatedly(testing::Return(hash_size));
 
-  Subdomain<HashMock> sut(mock, "example.com", length);
+  Subdomain<HashMock> sut(length, mock, "example.com");
 
   EXPECT_EQ(sut.get(), "ajt");
 }
