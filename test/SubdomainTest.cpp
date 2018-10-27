@@ -33,7 +33,7 @@ TEST_F(SubdomainTest, Method_get_ArgumentType_1)
 TEST_F(SubdomainTest, Method_get_ArgumentType_2)
 {
   constexpr size_t length    = 3;
-  const size_t     hash_size = ::hash_size(length);
+  auto             hash_size = ::hash_size(length);
 
   EXPECT_CALL(*mock_, hash(_))
     .Times(AtLeast(1))
