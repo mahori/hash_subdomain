@@ -11,17 +11,7 @@
 #include "Subdomain.hpp"
 #include "Utils.hpp"
 
-using std::cerr;
-using std::cin;
-using std::copy_n;
-using std::cout;
-using std::endl;
-using std::make_shared;
-using std::vector;
-using hash_ptr         = std::shared_ptr<Hash>;
-using invalid_argument = std::invalid_argument;
-using size_t           = std::size_t;
-using string           = std::string;
+using namespace std;
 
 int main(int argc, char* argv[])
 {
@@ -55,11 +45,11 @@ int main(int argc, char* argv[])
   string text;
   cin >> text;
 
-  size_t hash_size = ::hash_size(length);
-  hash_ptr hash = make_shared<Hash>(hash_size);
+  auto hash_size = ::hash_size(length);
+  auto hash = make_shared<Hash>(hash_size);
 
   Subdomain<Hash> sd(length, hash, text);
-  string subdomain = sd.get();
+  auto subdomain = sd.get();
   cout << "hashed subdomain = " << subdomain << endl;
 
   if (!user.empty() && !domain.empty()) {
