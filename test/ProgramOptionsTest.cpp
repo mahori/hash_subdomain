@@ -3,8 +3,7 @@
 #include <gtest/gtest.h>
 #include "../src/ProgramOptions.hpp"
 
-using std::vector;
-using invalid_argument = std::invalid_argument;
+using namespace std;
 
 namespace
 {
