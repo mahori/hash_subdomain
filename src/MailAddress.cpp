@@ -2,8 +2,7 @@
 #include <sstream>
 #include <string>
 
-using std::string;
-using std::ostringstream;
+using namespace std;
 
 MailAddress::MailAddress(const string& username, const string& subdomain, const string& maindomain)
   : username_(username)
