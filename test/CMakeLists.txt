@@ -1,51 +1,60 @@
-project(${PROJECT_NAME}_test)
+project(hash_subdomain_test)
 
-# library
+# C++
+
+enable_language(CXX)
+
+set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+add_definitions(-DMAHORI_TEST)
+
+# Google Test
 
 include(GoogleTest)
 
-set(GOOGLETEST_ROOT gtest/googletest CACHE STRING "Google Test source root")
-set(GOOGLEMOCK_ROOT gtest/googlemock CACHE STRING "Google Mock source root")
+set(GOOGLE_TEST_ROOT googletest/googletest)
+set(GOOGLE_MOCK_ROOT googletest/googlemock)
+set(GOOGLE_TEST_SOURCES
+  ${PROJECT_SOURCE_DIR}/${GOOGLE_TEST_ROOT}/src/gtest-all.cc
+  ${PROJECT_SOURCE_DIR}/${GOOGLE_TEST_ROOT}/src/gtest_main.cc
+  ${PROJECT_SOURCE_DIR}/${GOOGLE_MOCK_ROOT}/src/gmock-all.cc
+  )
 
-set(GOOGLETEST_SOURCES
-    ${PROJECT_SOURCE_DIR}/${GOOGLETEST_ROOT}/src/gtest-all.cc
-    ${PROJECT_SOURCE_DIR}/${GOOGLETEST_ROOT}/src/gtest_main.cc
-    ${PROJECT_SOURCE_DIR}/${GOOGLEMOCK_ROOT}/src/gmock-all.cc
-    )
+include_directories(
+  ${PROJECT_SOURCE_DIR}/${GOOGLE_TEST_ROOT}
+  ${PROJECT_SOURCE_DIR}/${GOOGLE_TEST_ROOT}/include
+  ${PROJECT_SOURCE_DIR}/${GOOGLE_MOCK_ROOT}
+  ${PROJECT_SOURCE_DIR}/${GOOGLE_MOCK_ROOT}/include
+  )
 
-foreach(_source ${GOOGLETEST_SOURCES})
-    set_source_files_properties(${_source} PROPERTIES GENERATED 1)
-endforeach()
+add_library(googletest ${GOOGLE_TEST_SOURCES})
 
-add_library(gtest ${GOOGLETEST_SOURCES})
-
-# executable
+# Boost C++ Libraries
 
 find_package(Boost COMPONENTS program_options REQUIRED)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
+include_directories(${Boost_INCLUDE_DIRS})
 
-include_directories(
-    SYSTEM
-    ${PROJECT_SOURCE_DIR}/${GOOGLETEST_ROOT}
-    ${PROJECT_SOURCE_DIR}/${GOOGLETEST_ROOT}/include
-    ${PROJECT_SOURCE_DIR}/${GOOGLEMOCK_ROOT}
-    ${PROJECT_SOURCE_DIR}/${GOOGLEMOCK_ROOT}/include
-    ${Boost_INCLUDE_DIRS}
-    )
+# executable
 
-add_executable(${PROJECT_NAME}
-    ../src/Hash.cpp
-    ../src/MailAddress.cpp
-    ../src/ProgramOptions.cpp
-    ../src/Utils.cpp
-    HashTest.cpp
-    MailAddressTest.cpp
-    ProgramOptionsTest.cpp
-    SubdomainTest.cpp
-    )
+set(HASH_SUBDOMAIN_TEST_SOURCES
+  ../src/Hash.cpp
+  ../src/MailAddress.cpp
+  ../src/ProgramOptions.cpp
+  ../src/Utils.cpp
+  HashTest.cpp
+  MailAddressTest.cpp
+  ProgramOptionsTest.cpp
+  SubdomainTest.cpp
+  )
 
-target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES} gtest)
+add_executable(${PROJECT_NAME} ${HASH_SUBDOMAIN_TEST_SOURCES})
+
+target_link_libraries(${PROJECT_NAME} Boost::program_options)
+target_link_libraries(${PROJECT_NAME} googletest)
 
 # test
 
