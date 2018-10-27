@@ -21,6 +21,7 @@ set(HASH_SUBDOMAIN_SOURCES
   Hash.cpp
   MailAddress.cpp
   ProgramOptions.cpp
+  Subdomain.cpp
   Utils.cpp
   main.cpp
   )

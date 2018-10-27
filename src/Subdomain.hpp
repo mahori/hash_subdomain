@@ -4,35 +4,19 @@
 #include <cstddef>
 #include <memory>
 #include <string>
-#include "Utils.hpp"
 
-template <class Hash>
+template <class T>
 class Subdomain
 {
 public:
-  Subdomain(std::size_t length, std::shared_ptr<Hash> hash, const std::string& domain)
-    : length_(length)
-    , hash_(hash)
-    , domain_(domain)
-  {
-  }
+  Subdomain(std::size_t length, std::shared_ptr<T> hash, const std::string& domain);
 
-  std::string get(void) const
-  {
-    if (length_) {
-      std::size_t hash_size  = hash_->size();
-      std::size_t hash_value = hash_->hash(domain_);
-
-      return ::get_alphabets(hash_size, hash_value);
-    } else {
-      return "";
-    }
-  }
+  std::string get(void) const;
 
 private:
-  std::size_t           length_;
-  std::shared_ptr<Hash> hash_;
-  std::string           domain_;
+  std::size_t        length_;
+  std::shared_ptr<T> hash_;
+  std::string        domain_;
 };
 
 #endif  // SUBDOMAIN_H
