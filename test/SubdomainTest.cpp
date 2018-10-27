@@ -5,15 +5,14 @@
 #include "../src/Utils.hpp"
 #include "MockHash.hpp"
 
-using std::make_shared;
-using hash_ptr = std::shared_ptr<MockHash>;
-using size_t   = std::size_t;
+using namespace std;
+using namespace testing;
 
 namespace
 {
 
 class SubdomainTest
-  : public ::testing::Test
+  : public Test
 {
 protected:
   void SetUp(void) override
@@ -21,7 +20,7 @@ protected:
     mock_ = make_shared<MockHash>();
   }
 
-  hash_ptr mock_;
+  shared_ptr<MockHash> mock_;
 };
 
 TEST_F(SubdomainTest, Method_get_ArgumentType_1)
@@ -33,16 +32,16 @@ TEST_F(SubdomainTest, Method_get_ArgumentType_1)
 
 TEST_F(SubdomainTest, Method_get_ArgumentType_2)
 {
-  const size_t length    = 3;
-  const size_t hash_size = ::hash_size(length);
+  constexpr size_t length    = 3;
+  const size_t     hash_size = ::hash_size(length);
 
-  EXPECT_CALL(*mock_, hash(testing::_))
-    .Times(testing::AtLeast(1))
-    .WillRepeatedly(testing::Return(253));
+  EXPECT_CALL(*mock_, hash(_))
+    .Times(AtLeast(1))
+    .WillRepeatedly(Return(253));
 
   EXPECT_CALL(*mock_, size())
-    .Times(testing::AtLeast(1))
-    .WillRepeatedly(testing::Return(hash_size));
+    .Times(AtLeast(1))
+    .WillRepeatedly(Return(hash_size));
 
   Subdomain<MockHash> sut(length, mock_, "example.com");
 
