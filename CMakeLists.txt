@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 2.4)
 
 add_subdirectory(src)
 add_subdirectory(test)

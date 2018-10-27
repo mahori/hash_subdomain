@@ -34,7 +34,7 @@ add_library(googletest ${GOOGLE_TEST_SOURCES})
 
 # Boost C++ Libraries
 
-find_package(Boost COMPONENTS program_options REQUIRED)
+find_package(Boost 1.32.0 REQUIRED COMPONENTS program_options)
 
 include_directories(${Boost_INCLUDE_DIRS})
 
