@@ -1,10 +1,10 @@
+#include "Utils.hpp"
 #include <cmath>
 #include <cstddef>
+#include <sstream>
 #include <string>
-#include "Utils.hpp"
 
-using size_t = std::size_t;
-using string = std::string;
+using namespace std;
 
 constexpr char kAlphabets[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
                                'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
@@ -19,10 +19,11 @@ string get_alphabet(size_t value, size_t current)
     return string(1, kAlphabets[value]);
   }
 
-  string s(1, kAlphabets[value/current]);
-  s += get_alphabet(value % current, current);
+  ostringstream s;
+  s << kAlphabets[value/current];
+  s << ::get_alphabet(value % current, current);
 
-  return s;
+  return s.str();
 }
 
 string get_alphabets(size_t hash_size, size_t hash_value)
