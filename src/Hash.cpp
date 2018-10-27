@@ -4,10 +4,7 @@
 #include <stdexcept>
 #include <string>
 
-using invalid_argument = std::invalid_argument;
-using size_t           = std::size_t;
-using string           = std::string;
-using string_hash      = std::hash<std::string>;
+using namespace std;
 
 Hash::Hash(size_t size)
   : size_(size)
@@ -19,10 +16,10 @@ Hash::Hash(size_t size)
 
 size_t Hash::hash(const string& text) const
 {
-  size_t hash = string_hash()(text);
-  hash %= size_;
+  auto value = std::hash<string>()(text);
+  value %= size_;
 
-  return hash;
+  return value;
 }
 
 size_t Hash::size(void) const
