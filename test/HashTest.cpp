@@ -4,17 +4,16 @@
 #include <gtest/gtest.h>
 #include "../src/Hash.hpp"
 
-using invalid_argument = std::invalid_argument;
-using size_t           = std::size_t;
+using namespace std;
 
-constexpr size_t size_t_max = std::numeric_limits<size_t>::max();
+constexpr size_t size_t_max = numeric_limits<size_t>::max();
 
 namespace
 {
 
 TEST(HashTest, Constructor_NormalArgument)
 {
-  const size_t hash_size = 17576U;
+  constexpr size_t hash_size = 17576U;
 
   Hash sut(hash_size);
 
@@ -30,15 +29,17 @@ TEST(HashTest, Constructor_NullArgument)
 
 TEST(HashTest, Constructor_ZeroArgument)
 {
+  constexpr size_t hash_size = 0U;
+
   EXPECT_THROW({
-      Hash sut(0U);
+      Hash sut(hash_size);
     },
     invalid_argument);
 }
 
 TEST(HashTest, Constructor_MaximumIntegerArgument)
 {
-  const size_t hash_size = size_t_max;
+  constexpr size_t hash_size = size_t_max;
 
   Hash sut(hash_size);
 
