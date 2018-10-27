@@ -10,6 +10,7 @@ class Subdomain
 {
 public:
   Subdomain(std::size_t length, std::shared_ptr<T> hash, const std::string& domain);
+  ~Subdomain(void) =default;
 
   std::string get(void) const;
 

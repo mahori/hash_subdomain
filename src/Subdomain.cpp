@@ -11,8 +11,10 @@
 #include "../src/Hash.hpp"
 #endif
 
+using namespace std;
+
 template <class T>
-Subdomain<T>::Subdomain(std::size_t length, std::shared_ptr<T> hash, const std::string& domain)
+Subdomain<T>::Subdomain(size_t length, shared_ptr<T> hash, const string& domain)
   : length_(length)
   , hash_(hash)
   , domain_(domain)
@@ -20,11 +22,11 @@ Subdomain<T>::Subdomain(std::size_t length, std::shared_ptr<T> hash, const std::
 }
 
 template <class T>
-std::string Subdomain<T>::get(void) const
+string Subdomain<T>::get(void) const
 {
   if (length_) {
-    std::size_t hash_size  = hash_->size();
-    std::size_t hash_value = hash_->hash(domain_);
+    auto hash_size  = hash_->size();
+    auto hash_value = hash_->hash(domain_);
 
     return ::get_alphabets(hash_size, hash_value);
   } else {
