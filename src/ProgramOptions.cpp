@@ -8,16 +8,12 @@
 
 namespace po = boost::program_options;
 
-using std::vector;
-using invalid_argument = std::invalid_argument;
-using ostringstream    = std::ostringstream;
-using size_t           = std::size_t;
-using string           = std::string;
+using namespace std;
 
-const char* const kHelpKey   = "help";
-const char* const kLengthKey = "length";
-const char* const kDomainKey = "domain";
-const char* const kUserKey   = "user";
+const char* const k_help_key   = "help";
+const char* const k_length_key = "length";
+const char* const k_domain_key = "domain";
+const char* const k_user_key   = "user";
 
 ProgramOptions::ProgramOptions(const vector<const char*>& args)
   : hasHelp_(false)
@@ -29,10 +25,10 @@ ProgramOptions::ProgramOptions(const vector<const char*>& args)
 {
   po::options_description desc("options");
   desc.add_options()
-    (kHelpKey,                                                  "show help")
-    (kLengthKey, po::value<size_t>(&length_)->default_value(1), "subdomain length")
-    (kUserKey,   po::value<string>(),                           "user name")
-    (kDomainKey, po::value<string>(),                           "domain name")
+    (k_help_key,                                                  "show help")
+    (k_length_key, po::value<size_t>(&length_)->default_value(1), "subdomain length")
+    (k_user_key,   po::value<string>(),                           "user name")
+    (k_domain_key, po::value<string>(),                           "domain name")
     ;
 
   po::variables_map vm;
@@ -44,20 +40,19 @@ ProgramOptions::ProgramOptions(const vector<const char*>& args)
   }
   po::notify(vm);
 
-  hasHelp_ = (vm.count(kHelpKey) > 0);
-
+  hasHelp_ = (vm.count(k_help_key) > 0);
   if (hasHelp_) {
     ostringstream ss;
     ss << desc;
     helpLines_ = ss.str();
   }
 
-  if (vm.count(kUserKey)) {
-    user_ = vm[kUserKey].as<string>();
+  if (vm.count(k_user_key)) {
+    user_ = vm[k_user_key].as<string>();
   }
 
-  if (vm.count(kDomainKey)) {
-    domain_ = vm[kDomainKey].as<string>();
+  if (vm.count(k_domain_key)) {
+    domain_ = vm[k_domain_key].as<string>();
   }
 }
 
