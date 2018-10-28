@@ -6,7 +6,7 @@
 
 using namespace std;
 
-constexpr size_t size_t_max = numeric_limits<size_t>::max();
+constexpr const size_t size_t_max = numeric_limits<size_t>::max();
 
 namespace
 {

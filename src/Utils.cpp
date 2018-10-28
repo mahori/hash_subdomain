@@ -6,10 +6,10 @@
 
 using namespace std;
 
-constexpr char kAlphabets[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
-                               'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
-                               'u', 'v', 'w', 'x', 'y', 'z'};
-constexpr size_t kNumberOfAlphabets = sizeof(kAlphabets) / sizeof(char);
+constexpr const char kAlphabets[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
+                                     'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
+                                     'u', 'v', 'w', 'x', 'y', 'z'};
+constexpr const size_t kNumberOfAlphabets = sizeof(kAlphabets) / sizeof(char);
 
 string get_alphabet(size_t value, size_t current)
 {
