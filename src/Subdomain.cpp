@@ -5,12 +5,6 @@
 #include <string>
 #include "Utils.hpp"
 
-#ifdef MAHORI_TEST
-#include "../test/MockHash.hpp"
-#else
-#include "../src/Hash.hpp"
-#endif
-
 using namespace std;
 
 template <class T>
@@ -35,7 +29,9 @@ string Subdomain<T>::get(void) const
 }
 
 #ifdef MAHORI_TEST
+#include "../test/MockHash.hpp"
 template class Subdomain<MockHash>;
 #else
+#include "../src/Hash.hpp"
 template class Subdomain<Hash>;
 #endif
