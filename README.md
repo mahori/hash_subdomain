@@ -2,15 +2,6 @@
 
 [![Build Status](https://travis-ci.org/mahori/hash_subdomain.svg?branch=master)](https://travis-ci.org/mahori/hash_subdomain)
 
-以下の勉強のために作ったプログラムです．
-* [Standard C++ Library](http://www.cplusplus.com/reference/) - `std::hash`
-* [Boost C++ Libraries](https://www.boost.org/) - [Program Options](https://www.boost.org/doc/libs/release/libs/program_options/)
-* [CMake](https://cmake.org/)
-* [Google Test](https://github.com/google/googletest)
-  * [Google Test](https://github.com/google/googletest/tree/master/googletest)
-  * [Google Mock](https://github.com/google/googletest/tree/master/googlemock)
-* [Travis CI](https://travis-ci.org/)
-
 相手先のドメインごとにサブドメインを使いわけたいとき`examplecom`や`exampleorg`といったわかりやすいサブドメインを用意することもできますが，もう少しわかりにくいサブドメインをつくりたいときにこのプログラムを使います．
 
 | 相手先ドメイン   | サブドメイン   |
